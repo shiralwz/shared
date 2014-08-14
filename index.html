@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>查询</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -42,315 +42,582 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>HTML Presentations Made Easy</h3>
+				<section data-background="#4d7e65">
+					<h1>查询</h1>
+					<h3>Active Record Querying</h3>
 					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+						<small>Created by <a href="http://iwangzheng.com">王筝</a></small>
 					</p>
 				</section>
 
-				<section>
-					<h2>Heads Up</h2>
+				<section data-background="#8c4738" >
+					<h2>从数据库中获取对象</h2>
 					<p>
-						reveal.js is a framework for easily creating beautiful presentations using HTML. You'll need a browser with
-						support for CSS 3D transforms to see it in its full glory.
-					</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
-
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>
-							Slides can be nested inside of other slides,
-							try pressing <a href="#" class="navigate-down">down</a>.
-						</p>
-						<a href="#" class="image navigate-down">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Press down or up to navigate.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>Cornify</p>
-						<a class="test" href="http://cornify.com">
-							<img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 3</h2>
-						<p>That's it, time to go back up.</p>
-						<a href="#/2" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
-
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? No problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slid.es" target="_blank">http://slid.es</a>.
+          bind create_with distinct eager_load
+          extending from group having
+          includes joins limit lock
+          none offset order preload
+          readonly references reorder
+          reverse_order select uniq where
 					</p>
 				</section>
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
+        <section>
+        <section data-background="#007777" data-markdown>
+        <script type="text/template">
+          ###获取单个对象
+          * find 使用主键获取对象
+          * take 不考虑顺序获取一个记录
+          * first/last  主键生／降序取数据
+          * find_by 满足条件第一个
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+        CmsTudouTvChannelVideo.find(1)
+
+        获取id=1
+
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          * take4.0.2+
+
+
+                CmsTudouTvChannelVideo.take
+
+                无记录返回nil
+
+                CmsTudouTvChannelVideo.take!
+
+                无记录会抛出 ActiveRecord::RecordNotFound 异常
+
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          * first/last
+
+
+                 CmsTudouTvChannelVideo.first
+                 CmsTudouTvChannelVideo.last
+
+                 无记录返回nil
+
+                 CmsTudouTvChannelVideo.first!
+                 CmsTudouTvChannelVideo.last!
+
+                  无记录抛异常
+        </script>
+        </section>
+        <section data-markdown>
+        <script type="text/template">
+          * find_by  v4.0.2+
+
+
+                Client.find_by name:'HanPeipei'
+
+                无记录返回nil
+
+                Client.find_by! name:'HanPeipei'
+
+                无记录抛异常
+
+                CmsTudouTvChannelVideo.find_by_title:"火影忍者"
+                CmsTudouTvChannelVideo.find_by_show_id:"115971"
+        </script>
+        </section>
+				</section>
+
+				<section data-background="#007777" >
+          <section data-markdown>
+          <script type="text/template">
+            ###获取多个对象
+            * Model.find(array_of_primary_key)
+            * Model.take(n)
+            * Model.first(n)
+            * Model.last(n)
+          </script>
+          </section>
+          <section data-markdown>
+          <script type="text/template">
+          CmsTudouTvChannelVideo.find([1,5])
+
+          只要有一个主键对应的记录未找到，抛异常
+          </script>
+          </section>
+          <section data-markdown>
+          <script type="text/template">
+            ###v4.0.2 +
+
+                Client.take(n)
+
+                SELECT * FROM clients LIMIT 2
+          </script>
+          </section>
+          <section data-markdown>
+          <script type="text/template">
+            ###主键排序
+
+                CmsTudouTvChannelVideo.first(3)
+                CmsTudouTvChannelVideo.last(3)
+
+          </script>
+          </section>
+				</section>
+
+				<section data-background="#007777">
+        <section data-markdown>
+        <script type="text/template">
+          ###批量获取多个对象
+
+          应用：给大量用户发邮件，数据导出
+          分批处理无法一次载入内存的海量数据
+
+          * find_each 获取一批记录，分别把每个记录传入代码块
+          * find_in_batches 获取一批记录，把整批记录作为数组传入
+
+          </br>
+        </script>
+        </section>
+        <section data-markdown >
+        <script type="text/template">
+          each:
+
+              User.all.each do |user|
+                NewsLetter.deliver(user)
+              end
+
+          读取整个数据库表，整个模型对象数组存入内存
+
+        </script>
+        </section>
+        <section data-markdown >
+        <script type="text/template">
+          find_each:
+
+              User.find_each do |user|
+                NewsLetter.deliver(user)
+              end
+
+
+          * :batch_size每批次的记录数量
+
+          * :start 从主键为某数的记录作为起始点
+
+
+              User.find_each(:start:2000,batch_size:5000) do |user|
+                NewsLetter.deliver(user)
+              end
+        </script>
+        </section>
+        <section data-markdown >
+        <script type="text/template">
+          find_in_batches:
+
+          * :batch_size每批次的记录数量
+
+          * :start 从主键为某数的记录作为起始点
+        </script>
+        </section>
 				</section>
 
 				<section>
-					<h2>Works in Mobile Safari</h2>
-					<p>
-						Try it out! You can swipe through the slides and pinch your way to the overview.
-					</p>
+        <section data-markdown >
+        <script type="text/template">
+          ###条件查询
+
+          where方法的条件可以使用字符串数组Hash
+
+        </script>
+        </section>
+
+        <section data-markdown >
+        <script type="text/template">
+          ###纯字符串查询
+
+              Client.where("state = 1")
+
+        </script>
+        </section>
+        <section data-markdown >
+        <script type="text/template">
+          ###动态生成条件
+
+              Client.where("orders_count = ? AND locked = ?", params[:orders], false)
+
+        </script>
+        </section>
+
+        <section data-markdown >
+        <script type="text/template">
+          ###Hash形式的占位符
+
+          用于多条参数的情况，增加代码可读性
+
+              Client.where("created_at >= :start_date AND created_at <= :end_date",
+                {start_date: params[:start_date], end_date: params[:end_date]})
+
+        </script>
+        </section>
+
+        <section data-markdown >
+        <script type="text/template">
+          ###Hash条件
+
+              Client.where(locked: true)
+
+              Client.where('locked' => true)
+
+        </script>
+        </section>
+        <section data-markdown >
+        <script type="text/template">
+          ###范围
+
+              Client.where(created_at: (Time.now.midnight - 1.day)..Time.now.midnight)
+
+        </script>
+        </section>
+
+        <section data-markdown >
+        <script type="text/template">
+          ###子集(Hash条件中使用数组)
+
+              Client.where(age: [21,33,25])
+
+        </script>
+        </section>
+
+        <section data-markdown >
+        <script type="text/template">
+          ###not条件
+
+                  Post.where.not(author: author)
+
+        </script>
+        </section>
 				</section>
 
 				<section>
-					<h2>Marvelous Unordered List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
+        <section data-markdown >
+        <script type="text/template">
+          ###order排序(默认升序)
+
+              Client.order(:created_at)
+
+              Client.order(created_at: :desc)
+
+              Client.order(:orders_count, created_at: :desc)
+        </script>
+        </section>
 				</section>
 
 				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
+        <section data-markdown >
+        <script type="text/template">
+          ###select查询指定的字段
+
+              Client.select("viewable_by, locked")
+
+              Client.select(:name).distinct
+        </script>
+        </section>
 				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-						## Markdown support
+           ###限量和偏移
+           ###limit 方法指定获取的记录数量，offset 方法指定在返回结果之前跳过多少个记录
 
-						For those of you who like that sort of thing. Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  For those of you who like that sort of thing.
-						  Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
+               Client.limit(5).offset(30)
 					</script>
 				</section>
 
+				<section data-markdown>
+					<script type="text/template">
+           ###group分组,分组后的条件筛选having
+
+               Order.select("date(created_at) as ordered_date, sum(price) as total_price").
+                 group("date(created_at)").having("sum(price) > ?", 100)`
+					</script>
+				</section>
+
+        <section>
+				<section data-markdown>
+					<script type="text/template">
+            ###条件覆盖
+
+            * unscope 删除某个查询条件
+
+            * only 设置生效的查询方法
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+            ###unscope
+
+                Post.where('id > 10').limit(20).order('id asc').unscope(:order)
+
+                SELECT * FROM posts WHERE id > 10 LIMIT 20
+
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+            ###only
+
+                Post.where('id > 10').limit(20).order('id desc').only(:order, :where)
+
+                SELECT * FROM posts WHERE id > 10 ORDER BY id DESC
+
+					</script>
+				</section>
+        </section>
+
 				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=cube#/transitions">Cube</a> -
-						<a href="?transition=page#/transitions">Page</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a> -
-						<a href="?transition=linear#/transitions">Linear</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?#/transitions">Default</a>
-					</p>
+        <section data-markdown>
+        <script type="type/template">
+          * readonly 方法，禁止修改获取的对象
+
+
+                client = Client.readonly.first
+                client.visits += 1
+                client.save
+
+            抛出 ActiveRecord::ReadOnlyRecord 异常
+        </script>
+        </section>
+        </section>
+
+				<section id="transitions">
+        <section data-markdown>
+        <script type="type/template">
+          ###scope常用的查询定义成方法，在关联对象或模型上调用
+
+              class Post < ActiveRecord::Base
+                scope :published, -> { where(published: true) }
+              end
+
+              class Post < ActiveRecord::Base
+                def self.published
+                  where(published: true)
+                end
+              end
+
+              class Post < ActiveRecord::Base
+                scope :created_before, ->(time) { where("created_at < ?", time) }
+              end
+
+              Post.created_before(Time.zone.now)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ###合并scope
+
+              class User < ActiveRecord::Base
+                scope :active, -> { where state: 'active' }
+                scope :inactive, -> { where state: 'inactive' }
+              end
+
+              User.active.inactive
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ###指定默认scope
+
+              class Client < ActiveRecord::Base
+                default_scope { where("VIP = true") }
+              end
+
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ###删除所有scope
+
+              Client.unscoped.load
+
+        </script>
+        </section>
 				</section>
 
 				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						Reveal.js comes with a few themes built in: <br>
-						<a href="?#/themes">Default</a> -
-						<a href="?theme=sky#/themes">Sky</a> -
-						<a href="?theme=beige#/themes">Beige</a> -
-						<a href="?theme=simple#/themes">Simple</a> -
-						<a href="?theme=serif#/themes">Serif</a> -
-						<a href="?theme=night#/themes">Night</a> <br>
-						<a href="?theme=moon#/themes">Moon</a> -
-						<a href="?theme=solarized#/themes">Solarized</a>
-					</p>
-					<p>
-						<small>
-							* Theme demos are loaded after the presentation which leads to flicker. In production you should load your theme in the <code>&lt;head&gt;</code> using a <code>&lt;link&gt;</code>.
-						</small>
-					</p>
+        <section data-markdown>
+        <script type="text/template">
+          ###动态查询方法
+
+          * Active Record 为数据表中的每个字段都提供了一个查询方法
+
+            在Client模型中有个 first_name 字段，
+            那么Active Record 就会生成 find_by_first_name 方法
+        </script>
+        </section>
 				</section>
 
 				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the background.
-					</p>
+        <section data-markdown>
+        <script type="text/template">
+          ###查找并构建新对象
+
+          * find_or_create_by
+          * find_or_initialize_by
+        </script>
+        </section>
+        <section data-markdown>
+        <script type="text/template">
+           * find_or_create_by 方法首先检查指定属性对应的记录是否存在，
+           如果不存在就调用 create 方法,返回现有的记录或者新建的记录
+
+                 Client.find_or_create_by(first_name: 'Andy')
+
+        </script>
+        </section>
+        <section data-markdown>
+        <script type="text/template">
+          * find_or_initialize_by不存在调用new方法,也就是说新建的模型实例在内存中，没有存入数据库
+
+                  nick = Client.find_or_initialize_by(first_name: 'Nick')
+
+                  nick.persisted?
+                  # =>false
+
+                  nick.new_record?
+                  # => true
+
+                  nike.save
+        </script>
+        </section>
 				</section>
 
 				<section data-state="customevent">
-					<h2>Custom Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
+        <section data-markdown>
+        <script type="text/template">
+          * find_by_sql 返回由记录组成的数组
+
+                Client.find_by_sql("SELECT * FROM clients
+                  INNER JOIN orders ON clients.id = orders.client_id
+                  ORDER BY clients.created_at desc")
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          * pluck 参数是一组字段名，返回结果是由各字段的值组成的数组
+          * 不生成 Active Record 对象
+
+
+                Client.where(active: true).pluck(:id)
+                # SELECT id FROM clients WHERE active = 1
+                # => [1, 2, 3]
+
+                Client.distinct.pluck(:role)
+                # SELECT DISTINCT role FROM clients
+                # => ['admin', 'member', 'guest']
+
+                Client.pluck(:id, :name)
+                # SELECT clients.id, clients.name FROM clients
+                # => [[1, 'David'], [2, 'Jeremy'], [3, 'Jose']]
+        </script>
+        </section>
 				</section>
 
 				<section>
-					<section data-background="#007777">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#007777"</code> on a slide to change the full page background to the given color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="image navigate-down">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Repeated Image Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+					<section  data-markdown  data-background="#007777">
+          <script type="text/template">
+            * ids直接获取数据表的主键
+
+
+                  Person.ids
+
+                  #=> SELECT id FROM table
+          </script>
 					</section>
 				</section>
 
 				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
-					<h2>Background Transitions</h2>
-					<p>
-						Pass reveal.js the <code>backgroundTransition: 'slide'</code> config argument to make backgrounds slide rather than fade.
-					</p>
+        <section data-background="#00777" data-markdown>
+        <script type="text/template">
+           ####exists 检查对象是否存在
+
+               Client.exists?(1)
+
+               Client.exists?(name: ['John', 'Sergei'])
+
+               Client.where(first_name: 'Ryan').exists?
+
+        </script>
+        </section>
+
 				</section>
 
 				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
-					<h2>Background Transition Override</h2>
-					<p>
-						You can override background transitions per slide by using <code>data-background-transition="slide"</code>.
-					</p>
-				</section>
+        <section data-markdown>
+        <script type="text/template">
+            ####计算
 
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
+             * 计数count
+             * 平均值average
+             * 最小值minimum
+             * 最大值 maximum
+             * 求和 sum
+        </script>
+        </section>
+        <section data-markdown>
+        <script type="text/template">
+           * count
 
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
 
-    var nodes = document.querySelectorAll( selector );
+                   Client.count
 
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
+                   Client.where(first_name: 'Ryan').count
 
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
+        </script>
+        </section>
+        <section data-markdown>
+        <script type="text/template">
+           * average
 
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
 
-				<section>
-					<section id="fragments">
-						<h2>Fragmented Views</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<ol>
-							<li class="fragment"><code>any type</code></li>
-							<li class="fragment"><em>of view</em></li>
-							<li class="fragment"><strong>fragments</strong></li>
-						</ol>
+                 Client.average("orders_count")
 
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's a few styles of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment roll-in">roll-in</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-green">highlight-green</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-current-blue">highlight-current-blue</p>
-					</section>
-				</section>
+        </script>
+        </section>
+        <section data-markdown>
+        <script type="text/template">
+           * minimum/maximum
 
-				<section>
-					<h2>Spectacular image!</h2>
-					<a class="image" href="http://lab.hakim.se/meny/" target="_blank">
-						<img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
-					</a>
-				</section>
 
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, below is an example that's been uploaded to SlideShare.</p>
-					<iframe id="slideshare" src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" style="margin:0;overflow:hidden;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
-					<script>
-						document.getElementById('slideshare').attributeName = 'allowfullscreen';
-					</script>
-				</section>
+                 Client.minimum("age")
 
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press b or period on your keyboard to enter the 'paused' mode. This mode is helpful when you want to take distracting slides off the screen
-						during a presentation.
-					</p>
-				</section>
+                 Client.maximum("age")
+        </script>
+        </section>
+        <section data-markdown>
+        <script type="text/template">
+           * sum
 
-				<section>
-					<h2>Stellar Links</h2>
-					<ul>
-						<li><a href="http://slid.es">Try the online editor</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js">Source code on GitHub</a></li>
-						<li><a href="http://twitter.com/hakimel">Follow me on Twitter</a></li>
-					</ul>
+
+                 Client.sum("orders_count")
+
+                 Client.maximum("age")
+        </script>
+        </section>
 				</section>
 
 				<section>
 					<h1>THE END</h1>
-					<h3>BY Hakim El Hattab / hakim.se</h3>
 				</section>
 
 			</div>
